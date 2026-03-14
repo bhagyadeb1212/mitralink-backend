@@ -22,12 +22,18 @@ export default function RootLayout() {
 
   useEffect(() => {
     const initialize = async () => {
+      console.log('App initialization started...');
       const savedToken = await SafeStorage.getItem('token');
+      console.log('Restored token:', savedToken ? 'YES' : 'NO');
 
       if (savedToken) {
         useStore.setState({ token: savedToken });
-        await fetchUserProfile();
-        connectSocket();
+        try {
+          await fetchUserProfile();
+          connectSocket();
+        } catch (e) {
+          console.error('Initial profile fetch failed:', e);
+        }
       }
       setIsReady(true);
     };

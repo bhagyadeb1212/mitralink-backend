@@ -244,6 +244,7 @@ export default function ReelsFeedScreen() {
                                 >
                                     <Text style={styles.suggestionViewText}>View Profile</Text>
                                 </TouchableOpacity>
+                            </View>
                             );
                         }}
                     />
@@ -271,6 +272,7 @@ export default function ReelsFeedScreen() {
                         shouldPlay={isActive}
                         isLooping
                         isMuted={false}
+                        onError={(e) => console.log('Video error:', e)}
                     />
                 ) : (
                     <Image

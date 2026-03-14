@@ -59,9 +59,17 @@ export default function ChatsScreen() {
     return combined;
   }, [contacts, groups]);
 
-  const handleSearch = (query: string) => {
+  const handleSearch = async (query: string) => {
     setSearchQuery(query);
-    // Removed contact search logic from here
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    
+    setIsSearching(true);
+    const results = await searchUsers(query);
+    setSearchResults(results);
+    setIsSearching(false);
   };
 
   const [gptUserFull, setGptUserFull] = useState<any>(null);
@@ -310,17 +318,28 @@ export default function ChatsScreen() {
       </View>
 
       {/* Ask Groq Shortcut */}
-      <TouchableOpacity
-        style={styles.searchContainer}
-        onPress={navigateToGpt}
-        activeOpacity={0.8}
-      >
+      <View style={styles.searchContainer}>
         <Search size={20} color="#64748b" style={styles.searchIcon} />
-        <View style={{ flex: 1, height: 45, justifyContent: 'center' }}>
-          <Text style={{ color: '#64748b', fontSize: 16 }}>Ask Mitra AI...</Text>
-        </View>
-        <SendHorizontal size={20} color="#0062E3" />
-      </TouchableOpacity>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search by name or number..."
+          placeholderTextColor="#64748b"
+          value={searchQuery}
+          onChangeText={handleSearch}
+          autoCapitalize="none"
+        />
+        {searchQuery.length === 0 ? (
+          <TouchableOpacity onPress={navigateToGpt}>
+            <SendHorizontal size={20} color="#0062E3" />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={() => handleSearch('')}>
+            <View style={{ backgroundColor: '#1e293b', borderRadius: 10, padding: 2 }}>
+              <ChevronLeft size={20} color="#94a3b8" />
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
 
       {/* Results / Contacts */}
       {searchQuery.trim().length > 0 ? (
@@ -335,13 +354,20 @@ export default function ChatsScreen() {
               renderItem={({ item }) => (
                 <TouchableOpacity style={styles.contactItem} onPress={() => handleAddContact(item.id)}>
                   <View style={styles.itemAvatar}>
-                    <UserIcon size={20} color="#94a3b8" />
+                    {item.default_avatar ? (
+                      <Image source={{ uri: item.default_avatar }} style={{ width: '100%', height: '100%', borderRadius: 12 }} />
+                    ) : (
+                      <UserIcon size={20} color="#94a3b8" />
+                    )}
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.itemName}>{item.username}</Text>
                     <Text style={styles.itemPhone}>{item.phone_number}</Text>
                   </View>
-                  <Text style={styles.addText}>Add</Text>
+                  <View style={styles.addButton}>
+                    <UserPlus size={18} color="#fff" />
+                    <Text style={[styles.addText, { color: '#fff', marginLeft: 6 }]}>Add</Text>
+                  </View>
                 </TouchableOpacity>
               )}
               ListEmptyComponent={<Text style={styles.emptyText}>No users found</Text>}
@@ -801,6 +827,14 @@ const styles = StyleSheet.create({
   addText: {
     color: '#6366f1',
     fontWeight: '700',
+  },
+  addButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#6366f1',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
   },
   emptyText: {
     color: '#94a3b8',

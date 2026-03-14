@@ -442,10 +442,12 @@ app.get('/admin/stats', authenticateToken, (req, res) => {
   });
 });
 
-app.get('/admin/users/search', authenticateToken, (req, res) => {
-  const { phone } = req.query;
-  db.all('SELECT * FROM users WHERE phone_number LIKE ?', [`%${phone}%`], (err, rows) => {
-    res.json(rows || []);
+app.get('/users/search', authenticateToken, (req, res) => {
+  const { query } = req.query; // 'phone' was old parameter, 'query' is better
+  const searchTerm = `%${query || req.query.phone || ''}%`;
+  db.all('SELECT id, username, phone_number, default_avatar FROM users WHERE phone_number LIKE ? OR username LIKE ?', [searchTerm, searchTerm], (err, rows) => {
+    if (err) return res.status(500).json({ error: 'Search failed' });
+    res.json(rows);
   });
 });
 

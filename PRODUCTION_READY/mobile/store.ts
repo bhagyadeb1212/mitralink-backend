@@ -529,8 +529,8 @@ const useStore = create<ChatState>((set, get) => ({
             set({ user: res.data });
         } catch (err: any) {
             console.log('Fetch profile failed', err);
-            if (err.response?.status === 401 || err.response?.status === 404) {
-                // Orphaned session - token exists but user doesn't or token is invalid
+            // Only logout if token is explicitly invalid (401)
+            if (err.response?.status === 401) {
                 logout();
             }
         }
@@ -547,7 +547,7 @@ const useStore = create<ChatState>((set, get) => ({
         const { token } = get();
         if (!token) return [];
         try {
-            const res = await axios.get(`${BASE_URL}/users/search?phone=${query}`, { headers: { Authorization: `Bearer ${token}` } });
+            const res = await axios.get(`${BASE_URL}/users/search?query=${query}`, { headers: { Authorization: `Bearer ${token}` } });
             return res.data;
         } catch (err) { return []; }
     },
