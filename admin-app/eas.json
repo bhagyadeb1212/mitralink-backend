@@ -1,0 +1,25 @@
+{
+    "cli": {
+        "version": ">= 3.10.2"
+    },
+    "build": {
+        "development": {
+            "developmentClient": true,
+            "distribution": "internal"
+        },
+        "preview": {
+            "distribution": "internal",
+            "android": {
+                    "buildType": "apk"
+            },
+            "env": {
+                "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+            }
+        },
+        "production": {
+            "android": {
+                    "buildType": "apk"
+            }
+        }
+    }
+}

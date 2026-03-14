@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "MitraLink",
+    "slug": "mitralink",
+    "version": "1.0.0",
+    "scheme": "mitralink",
+    "icon": "./assets/images/logo.jpg",
+    "newArchEnabled": false,
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/logo.jpg"
+    },
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7dd47d88-e435-4ffe-a3a0-0ae26916096a"
+      }
+    },
+    "android": {
+      "package": "com.akadasi.mitralink",
+      "googleServicesFile": "./google-services.json"
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "otpless-react-native",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.akadasi.mitralink",
+      "googleServicesFile": "./googleService-Info.plist"
+    }
+  }
+}

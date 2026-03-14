@@ -1,0 +1,6 @@
+# Ignore everything for EAS
+*
+
+# But don't ignore the mobile folder
+!mobile/
+!mobile/**

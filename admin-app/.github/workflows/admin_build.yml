@@ -1,0 +1,72 @@
+name: Admin Build
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+      NODE_BINARY: node
+      NODE_OPTIONS: "--max-old-space-size=4096"
+    steps:
+      - name: 🏗 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: 📦 Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: 🔧 Setup EAS
+        run: npm install -g eas-cli
+
+      - name: 🔍 Pre-Build Check
+        run: |
+          echo "Checking for google-services.json..."
+          ls -l google-services.json || echo "CRITICAL: google-services.json NOT FOUND IN ROOT"
+
+      - name: 🛠 Configure Expo Prebuild
+        run: npx expo prebuild --platform android
+
+      - name: 📂 Post-Prebuild Check
+        run: |
+          echo "Checking android/app structure..."
+          ls -R android/app | grep google-services.json || echo "CRITICAL: google-services.json NOT IN android/app"
+
+      - name: 🚀 Build APK
+        run: |
+          export NODE_BINARY=$(which node)
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease --stacktrace
+          ./gradlew signingReport
+        env:
+          JAVA_OPTS: "-Xmx4g"
+
+      - name: 🚀 Release APK (Direct Link)
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: android/app/build/outputs/apk/release/*.apk
+          name: "MitraLink Admin APK Release (${{ github.ref_name }})"
+          body: "Direct APK download for testing. Please copy the SHA-1 from the build logs to your Firebase Console."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

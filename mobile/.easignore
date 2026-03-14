@@ -1,0 +1,15 @@
+node_modules/
+node_modules*/
+android/
+ios/
+.expo/
+.npm_local_cache/
+metro-cache/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+.DS_Store
+*.bak
