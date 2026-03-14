@@ -14,9 +14,5 @@ services:
         fromContext: git
       - key: GEMINI_API_KEY
         fromContext: git
-      - key: DATABASE_PATH
-        value: /app/data/database.sqlite
-    disk:
-      name: sqlite-data
-      mountPath: /app/data
-      sizeGB: 1
+      - key: GEMINI_API_KEY
+        fromContext: git
