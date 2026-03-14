@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const dbPath = path.resolve(__dirname, 'database.sqlite');
+const dbPath = process.env.DATABASE_PATH || path.resolve(__dirname, 'database.sqlite');
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Error opening database', err.message);
@@ -20,9 +20,11 @@ const db = new sqlite3.Database(dbPath, (err) => {
       last_seen INTEGER DEFAULT NULL,
       hide_last_seen BOOLEAN DEFAULT 0,
       latitude REAL DEFAULT NULL,
-      longitude REAL DEFAULT NULL
+      longitude REAL DEFAULT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`, () => {
       // Gracefully add new columns to existing tables
+      db.run("ALTER TABLE users ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP", () => { });
       db.run("ALTER TABLE users ADD COLUMN push_token TEXT", () => { });
       db.run("ALTER TABLE users ADD COLUMN default_avatar TEXT", () => { });
       db.run("ALTER TABLE users ADD COLUMN last_seen INTEGER DEFAULT NULL", () => { });
