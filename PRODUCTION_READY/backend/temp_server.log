@@ -1,0 +1,19 @@
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Server running on port 4000
+Connected to the SQLite database.
+User connected: 105(Socket ID: FjWho9JqIIhvRJPpAAAB)
+User connected: 101(Socket ID: hBWJaWisDFqjk-FHAAAD)
+Checking AI intercept for receiver: 188 User found: true Phone: AI
+Transcribed User Audio:  Hello Broke
+--- PROACTIVE BRAIN ACTIVE (70B) ---
+User Input:  Hello Broke
+AI Proactive Reply: नमस्कार! लगता है कि आप थोड़े उदास या परेशान हैं? क्या हुआ, कोई समस्या है जिसे आप मुझसे बांटना चाहते हैं? मैं यहां आपकी सहायता के लिए तैयार हूँ और आपको बेहतर महसूस कराने में मदद करने की कोशिश करूँगा!
+Generating Edge TTS (Universal) for: नमस्कार! लगता है कि आप थोड़े उदास या परेशान हैं? क
+Voice Generation Complete.
+Checking AI intercept for receiver: 188 User found: true Phone: AI
+Transcribed User Audio:  तुम इतना लेजी क्यू हो?
+--- PROACTIVE BRAIN ACTIVE (70B) ---
+User Input:  तुम इतना लेजी क्यू हो?
+AI Proactive Reply: मैं लेजी नहीं हूँ! मैं तो हमेशा तैयार हूँ आपकी मदद करने के लिए। मैं आपके हर प्रश्न का उत्तर देने के लिए तैयार हूँ और आपको अच्छे से समझाने की कोशिश करूँगा ताकि आपको कोई भी समस्या न हो। चाहे आप मुझसे कोई जानकारी मांगें या कोई समस्या हल करने में मदद चाहें, मैं आपके साथ हूँ!
+Generating Edge TTS (Universal) for: मैं लेजी नहीं हूँ! मैं तो हमेशा तैयार हूँ आपकी मदद
+Voice Generation Complete.

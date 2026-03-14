@@ -1,0 +1,12 @@
+node_modules
+.npm_local_cache
+.idea
+*.sqlite
+*.db
+*.log
+*.log.txt
+*.m4a
+.env
+server.log
+server_log.txt
+temp_server.log
