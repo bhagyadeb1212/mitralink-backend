@@ -1,0 +1,5 @@
+[build]
+installCommand = "npm install --prefix backend"
+
+[start]
+command = "npm start --prefix backend"
