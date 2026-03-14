@@ -3,13 +3,13 @@ services:
     name: mitralink-backend
     env: node
     plan: free
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node server.js
     envVars:
       - key: PORT
         value: 10000
       - key: JWT_SECRET
-        fromContext: git
+        value: mitralink_secret_2026
       - key: GROQ_API_KEY
         fromContext: git
       - key: GEMINI_API_KEY
